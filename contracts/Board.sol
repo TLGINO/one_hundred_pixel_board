@@ -23,7 +23,7 @@ contract Board {
             "RGB values must be between 0 and 255"
         );
 
-        if (arr_bets[_row][_col] > _bid) {
+        if (arr_bets[_row][_col] < _bid) {
             // [TODO] handle the funds
             arr_bets[_row][_col] = _bid;
 
@@ -32,6 +32,9 @@ contract Board {
                 uint256(_blue);
 
             setColour(_col, _row, rgbColour);
+        } else {
+            console.log("NO CHANGE, bid too low");
+            console.log("VAL", arr_bets[_row][_col]);
         }
     }
 

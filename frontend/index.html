@@ -2,24 +2,20 @@
 <html>
 
 <head>
-    <title>Metamask Connection</title>
-    <!-- Import Web3 library from CDN -->
-    <script src='https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js'></script>
-    <script src="./main.js"></script>
+    <title>Javascript Test</title>
+    <script src="./dist/bundle.js" type="text/javascript"></script>
 </head>
 
 <body>
-    <h1>Metamask Connection</h1>
+    <script>
+        bundle.connect()
+    </script>
+    <div id="userDiv">Please install MetaMask</div>
+    <button id="executeButton" onclick="bundle.execute()">Execute</button>
 
-    <button onclick="connectToMetamask()">Connect to Metamask</button>
-    <button onclick="displayBalance()">Balance</button>
 
-    <h2 id='connectedAccount'>No account connected</h2>
 
-    <div id='accountBalances'></div>
-    <h2>Balances:</h2>
 
-    </div>
 
 </body>
 
