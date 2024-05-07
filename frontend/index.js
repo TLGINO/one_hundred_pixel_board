@@ -27,16 +27,37 @@ async function userSetup() {
   document.getElementById("userDiv").innerHTML = userMessage;
 }
 
-async function boardSetup() {}
+async function boardSetup() {
+  let contractAddress = contractArtifact.networks[network_port].address;
+  const abi = contractArtifact.abi;
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  let board = document.getElementById("board");
+
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      try {
+        let cell = document.createElement("div");
+        cell.className = "cell";
+        let c = await contract.getColour(i, j);
+
+        let rgbColour = c.toNumber();
+        let RGB = `#${rgbColour.toString(16)}`;
+
+        cell.id = `${i}${j}`;
+        cell.style.backgroundColor = RGB;
+        board.appendChild(cell);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+}
 
 async function execute() {
-  if (typeof window.ethereum === "undefined") {
-    document.getElementById("executeButton").innerHTML =
-      "Please install MetaMask";
-    return;
-  }
   let contractAddress = contractArtifact.networks[network_port].address;
-
   const abi = contractArtifact.abi;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
