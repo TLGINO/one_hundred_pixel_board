@@ -1,6 +1,7 @@
 const { ethers } = require("ethers");
 const contractArtifact = require("../build/contracts/Board.json");
 const network_port = 5777;
+var global_contract;
 
 async function connect() {
   if (typeof window.ethereum === "undefined") {
@@ -8,7 +9,31 @@ async function connect() {
     return;
   }
   userSetup();
+  formSetup();
   boardSetup();
+}
+
+function getContract() {
+  if (global_contract != undefined) {
+    return global_contract;
+  }
+  let contractAddress = contractArtifact.networks[network_port].address;
+  const abi = contractArtifact.abi;
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  global_contract = new ethers.Contract(contractAddress, abi, signer);
+
+  global_contract.on("ColourChange", (_row, _col, colour) => {
+    updateCellColour(_row, _col, colour);
+  });
+
+  return global_contract;
+}
+
+async function formSetup() {
+  document
+    .getElementById("pixel-manage-form")
+    .addEventListener("submit", bidCell);
 }
 
 async function userSetup() {
@@ -17,6 +42,8 @@ async function userSetup() {
   } catch (error) {
     console.log(error);
   }
+
+  // Good for debug, will remove later
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const accounts = await signer.getAddress();
@@ -28,49 +55,79 @@ async function userSetup() {
 }
 
 async function boardSetup() {
-  let contractAddress = contractArtifact.networks[network_port].address;
-  const abi = contractArtifact.abi;
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(contractAddress, abi, signer);
-
+  let contract = getContract();
   let board = document.getElementById("board");
 
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      try {
-        let cell = document.createElement("div");
-        cell.className = "cell";
-        let c = await contract.getColour(i, j);
+  let size = await contract.getSize();
+  let arr_colours = await contract.getColours();
 
-        let rgbColour = c.toNumber();
-        let RGB = `#${rgbColour.toString(16)}`;
+  document.documentElement.style.setProperty("--grid-size", size); // set css size dynamically
 
-        cell.id = `${i}${j}`;
-        cell.style.backgroundColor = RGB;
-        board.appendChild(cell);
-      } catch (error) {
-        console.log(error);
-      }
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      let pos = i * size + j;
+
+      let cell = document.createElement("button");
+      cell.addEventListener("click", () => {
+        cellSelect(cell, i, j);
+      });
+      cell.className = "cell";
+      cell.id = `${i}_${j}`;
+
+      let rgbColour = arr_colours[pos].toNumber();
+      let RGB = `#${rgbColour.toString(16).padStart(6, "0")}`;
+
+      cell.style.backgroundColor = RGB;
+      board.appendChild(cell);
     }
   }
 }
 
-async function execute() {
-  let contractAddress = contractArtifact.networks[network_port].address;
-  const abi = contractArtifact.abi;
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(contractAddress, abi, signer);
+async function updateCellColour(row, col, colour) {
+  let cell = document.getElementById(`${row}_${col}`);
+
+  let rgbColour = colour.toNumber();
+  let RGB = `#${rgbColour.toString(16).padStart(6, "0")}`;
+  cell.style.backgroundColor = RGB;
+}
+
+async function cellSelect(cell, row, col) {
+  // remove active class from all the other cells
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((c) => {
+    c.classList.remove("active");
+  });
+  // add active class to current cell
+  cell.classList.add("active");
+
+  let contract = getContract();
+  let current_bid = await contract.getBid(row, col);
+
+  document.getElementById("pixel_current_bid").innerHTML = current_bid;
+  document.getElementById("pixel_row").innerHTML = row;
+  document.getElementById("pixel_col").innerHTML = col;
+}
+
+async function bidCell(event) {
+  event.preventDefault();
+
+  let row = document.getElementById("pixel_row").innerHTML;
+  let col = document.getElementById("pixel_col").innerHTML;
+
+  let formData = new FormData(event.target);
+  let bidColour = formData.get("pixel_rgb");
+  let bidAmount = Number(formData.get("pixel_bid"));
+
+  let colour = parseInt(bidColour.slice(1, 7), 16);
+
+  const contract = getContract();
   try {
-    let c = await contract.getColour(1, 1);
-    console.log("HERE IS C", JSON.stringify(c));
+    await contract.placeBid(row, col, colour, { value: bidAmount });
   } catch (error) {
-    console.log(error);
+    alert(error.data.data.reason);
   }
 }
 
 module.exports = {
   connect,
-  execute,
 };
