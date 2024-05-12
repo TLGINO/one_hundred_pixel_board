@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>One Hundred Pixel Board</title>
+    <script src="./dist/bundle.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="template.css">
+    <!-- Colour Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+</head>
+
+<body>
+    <div id="userDiv">Please install MetaMask</div>
+
+    <div class="flex-row">
+        <div id="board" class="board"></div>
+        <div class="cell-interact">
+            <h4>Bid on a pixel:</h4>
+
+            Click on a pixel to bid on it and set it's colour.
+
+            <p class="pixel-manage">
+
+
+            <ul>
+                <li>Pixel Row: <div id="pixel_row"></div>
+                </li>
+                <li>Pixel Col: <div id="pixel_col"></div>
+                </li>
+                <li>Current Bid: <div id="pixel_current_bid"></div>
+                </li>
+            </ul>
+
+            <form id="pixel-manage-form">
+                <label>Set Colour:</label>
+                <input name="pixel_rgb" type="text" data-coloris> <br>
+                <label>Set Bid:</label>
+                <input name="pixel_bid" type="text"><br>
+                <input type="submit" value="Submit">
+            </form>
+
+            </p>
+
+        </div>
+    </div>
+
+
+    <script>
+        bundle.connect();
+    </script>
+</body>
+
+</html>

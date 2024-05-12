@@ -54,7 +54,7 @@ contract Board {
         emit ColourChange(_row, _col, _colour);
     }
 
-    function getSize() public view returns (uint16) {
+    function getSize() public pure returns (uint16) {
         return size;
     }
 
@@ -67,3 +67,6 @@ contract Board {
         return arr_bids[pos];
     }
 }
+
+//     0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8
+// 0xf8e81D47203A594245E36C48e151709F0C19fBe8

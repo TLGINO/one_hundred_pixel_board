@@ -2,5 +2,8 @@
 
 set -e # exit on error
 
-cd frontend && yarn watch
-# truffle develop
+# rebuild assets
+cd public && yarn build && cd ..
+
+# deploy to frontend
+firebase deploy

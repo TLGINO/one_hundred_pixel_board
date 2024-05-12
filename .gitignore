@@ -1,3 +1,4 @@
-frontend/node_modules/
-frontend/dist/
+public/node_modules/
+public/dist/
 contracts/examples.sol
+.firebase

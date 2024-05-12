@@ -1,0 +1,41 @@
+:root {
+  --grid-size: 10; /* Default value */
+}
+/* Style for Board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), 50px);
+  grid-template-rows: repeat(var(--grid-size), 50px);
+  gap: 2px;
+}
+
+/* Style for individual cells */
+.cell {
+  background-color: black;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+
+  font-size: 4px;
+  text-align: center;
+}
+
+.cell:hover {
+  border: 2px solid lime;
+  cursor: pointer;
+}
+.cell.active {
+  border: 2px solid lime;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.cell-interact {
+  padding: 20px;
+}
+
+* {
+  border: 1px solid red;
+}
