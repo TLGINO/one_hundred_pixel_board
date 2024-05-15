@@ -11,45 +11,63 @@
 </head>
 
 <body>
-    <div id="userDiv">Please install MetaMask</div>
+    <h1>One Hundred Pixel Board</h1>
 
-    <div class="flex-row">
-        <div id="board" class="board"></div>
-        <div class="cell-interact">
-            <h4>Bid on a pixel:</h4>
+    <main>
+        <div id="userDiv">Please install MetaMask</div>
 
-            Click on a pixel to bid on it and set it's colour.
+        <div class="flex-row">
+            <div id="board" class="board"></div>
+            <div class="cell-interact">
+                <h4>Bid on a pixel:</h4>
 
-            <p class="pixel-manage">
+                Click on a pixel to bid on it and set it's colour.
+
+                <p class="pixel-manage">
 
 
-            <ul>
-                <li>Pixel Row: <div id="pixel_row"></div>
-                </li>
-                <li>Pixel Col: <div id="pixel_col"></div>
-                </li>
-                <li>Current Bid: <div id="pixel_current_bid"></div>
-                </li>
-            </ul>
+                <ul>
+                    <li>Row number: <div style="display: inline-block;" id="pixel_row"></div>
+                    </li>
+                    <li>Column number: <div style="display: inline-block;" id="pixel_col"></div>
+                    </li>
+                    <li>Current bid: <div style="display: inline-block;" id="pixel_current_bid"></div>
+                    </li>
+                </ul>
 
-            <form id="pixel-manage-form">
-                <label>Set Colour:</label>
-                <input name="pixel_rgb" type="text" data-coloris> <br>
-                <label>Set Bid:</label>
-                <input name="pixel_bid" type="text"><br>
-                <label>Optional, set message:</label>
-                <input name="pixel_message" type="text"><br>
-                <input type="submit" value="Submit">
-            </form>
+                <form id="pixel-manage-form">
+                    <label>Set colour (RGB):</label>
+                    <input name="pixel_rgb" type="text" placeholder="#ff0000" data-coloris> <br>
+                    <label>Set bid (in Wei):</label>
+                    <input name="pixel_bid" type="number" placeholder="123"><br>
+                    <label>Set message (optional):</label>
+                    <input name="pixel_message" type="text" placeholder="Satoshi"><br><br>
+                    <input type="submit" value="Submit" class="nice-button">
+                </form>
 
-            </p>
+                </p>
 
+            </div>
         </div>
-    </div>
+    </main>
 
+
+    <footer>
+
+        <div>See code on<a href="https://github.com/TLGINO/one_hundred_pixel_board" target="_blank">Github</a></div>
+        <div>See contract on<a href="#" target="_blank">Etherscan</a></div>
+        <div>See my<a href="https://web3.lettry.xyz/" target="_blank">web3 blog</a></div>
+        <div>Follow me on<a href="https://www.linkedin.com/in/martin-lettry/" target="_blank">Linkedin</a></div>
+        <a href="mailto:m.lettry1@gmail.com" target="_blank">Contact me</a>
+
+    </footer>
 
     <script>
         bundle.connect();
+        Coloris({
+            themeMode: 'dark',
+            alpha: false
+        });
     </script>
 </body>
 

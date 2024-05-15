@@ -1,22 +1,29 @@
 :root {
   --grid-size: 10; /* Default value */
 }
+
+* {
+  /* border: 1px solid white; */
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  color: white;
+  background-color: #1a1a1a;
+}
+
 /* Style for Board */
 .board {
   display: grid;
   grid-template-columns: repeat(var(--grid-size), 50px);
   grid-template-rows: repeat(var(--grid-size), 50px);
   gap: 2px;
+  border: 1px solid white;
 }
 
 /* Style for individual cells */
 .cell {
-  background-color: black;
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 10px;
-
-  font-size: 4px;
-  text-align: center;
 }
 
 .cell:hover {
@@ -30,12 +37,42 @@
 .flex-row {
   display: flex;
   flex-direction: row;
+  padding: 20px;
 }
-
-.cell-interact {
+h1 {
   padding: 20px;
 }
 
-* {
-  border: 1px solid red;
+.cell-interact {
+  padding: 50px;
+  border: 1px solid white;
+  border-radius: 0 10px 10px 0;
+}
+
+.nice-button {
+  background-color: #3347fa;
+  color: white;
+  padding: 10px 20px;
+
+  font-size: 16px;
+  border-radius: 5px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.nice-button:hover {
+  background-color: #3262d4;
+}
+
+footer {
+  color: white;
+  padding: 20px;
+  text-align: left;
+  display: flex;
+
+  flex-direction: column;
+}
+footer a,
+footer div {
+  padding: 5px;
 }

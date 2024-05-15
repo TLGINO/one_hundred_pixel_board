@@ -46,6 +46,7 @@ contract Board {
             "Bid must be more than the current bid"
         );
 
+        // set message for given position
         arr_messages[pos] = _message;
 
         // set bid for given position

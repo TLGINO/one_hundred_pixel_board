@@ -122,16 +122,7 @@ async function userSetup() {
   } catch (error) {
     console.log(error);
   }
-
-  // Good for debug, will remove later
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const accounts = await signer.getAddress();
-  const balance = await provider.getBalance(accounts);
-  let balanceSimple = ethers.utils.formatEther(balance);
-
-  let userMessage = `<p> ${accounts} <br> ${balanceSimple} </p>`;
-  document.getElementById("userDiv").innerHTML = userMessage;
+  document.getElementById("userDiv").innerHTML = "";
 }
 
 async function boardSetup() {
@@ -158,6 +149,7 @@ async function boardSetup() {
       let RGB = `#${rgbColour.toString(16).padStart(6, "0")}`;
 
       cell.style.backgroundColor = RGB;
+      cell.title = await contract.getMessage(i, j);
       board.appendChild(cell);
     }
   }
@@ -196,7 +188,7 @@ async function bidCell(event) {
 
   let formData = new FormData(event.target);
   let bidColour = formData.get("pixel_rgb");
-  let bidAmount = Number(formData.get("pixel_bid"));
+  let bidAmount = formData.get("pixel_bid");
   let bidMessage = formData.get("pixel_message");
 
   let colour = parseInt(bidColour.slice(1, 7), 16);
