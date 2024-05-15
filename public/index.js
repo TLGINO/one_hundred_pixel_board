@@ -18,11 +18,11 @@ function getContract() {
     return global_contract;
   }
 
-  // let contractAddress = contractArtifact.networks[network_port].address;
-  // const abi = contractArtifact.abi;
-  let contractAddress = "0xbCFE9e893C744F0661806aD8148bBaf6fAED295f";
+  const abi = contractArtifact.abi;
+  let contractAddress = contractArtifact.networks[network_port].address;
+  // let contractAddress = "0xbCFE9e893C744F0661806aD8148bBaf6fAED295f";
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-
+  /**
   const abi = [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -99,7 +99,7 @@ function getContract() {
       type: "function",
     },
   ];
-
+   */
   const signer = provider.getSigner();
   global_contract = new ethers.Contract(contractAddress, abi, signer);
 
@@ -197,12 +197,15 @@ async function bidCell(event) {
   let formData = new FormData(event.target);
   let bidColour = formData.get("pixel_rgb");
   let bidAmount = Number(formData.get("pixel_bid"));
+  let bidMessage = formData.get("pixel_message");
 
   let colour = parseInt(bidColour.slice(1, 7), 16);
 
   const contract = getContract();
   try {
-    await contract.placeBid(row, col, colour, { value: bidAmount });
+    await contract.placeBidMessage(row, col, colour, bidMessage, {
+      value: bidAmount,
+    });
   } catch (error) {
     alert(error.data.data.reason);
   }

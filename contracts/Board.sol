@@ -6,6 +6,7 @@ contract Board {
     // flattened 2d arrays
     uint256[size * size] public arr_colours;
     uint256[size * size] public arr_bids;
+    string[size*size] public arr_messages;
     address public owner;
 
     // ------------
@@ -34,7 +35,7 @@ contract Board {
     // ------------
     // Functions
 
-    function placeBid(uint8 _row, uint8 _col, uint256 _colour) public payable {
+    function placeBidMessage(uint8 _row, uint8 _col, uint256 _colour, string calldata _message) public payable {
         uint256 pos = _row * size + _col;
         require(
             _colour < 16777216, // = 16**6 = #ffffff
@@ -44,6 +45,8 @@ contract Board {
             arr_bids[pos] < msg.value,
             "Bid must be more than the current bid"
         );
+
+        arr_messages[pos] = _message;
 
         // set bid for given position
         arr_bids[pos] = msg.value;
@@ -62,9 +65,15 @@ contract Board {
         return arr_colours;
     }
 
+
     function getBid(uint8 _row, uint8 _col) public view returns (uint256) {
         uint256 pos = _row * size + _col;
         return arr_bids[pos];
+    }
+
+    function getMessage(uint8 _row, uint8 _col) public view returns (string memory) {
+        uint256 pos = _row * size + _col;
+        return arr_messages[pos];
     }
 }
 
