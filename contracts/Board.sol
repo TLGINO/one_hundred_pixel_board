@@ -1,5 +1,4 @@
 pragma solidity ^0.8.21;
-import "truffle/console.sol";
 
 contract Board {
     uint16 constant size = 10;
@@ -7,25 +6,6 @@ contract Board {
     uint256[size * size] public arr_colours;
     uint256[size * size] public arr_bids;
     string[size*size] public arr_messages;
-    address public owner;
-
-    // ------------
-    // Constructor
-
-    constructor() {
-        owner = msg.sender;
-    }
-
-    // ------------
-    // Modifiers
-
-    modifier onlyOwner() {
-        require(
-            msg.sender == owner,
-            "Only the contract owner can call this function"
-        );
-        _;
-    }
 
     // ------------
     // Events
@@ -77,6 +57,3 @@ contract Board {
         return arr_messages[pos];
     }
 }
-
-//     0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8
-// 0xf8e81D47203A594245E36C48e151709F0C19fBe8

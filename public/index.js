@@ -18,18 +18,26 @@ function getContract() {
     return global_contract;
   }
 
-  const abi = contractArtifact.abi;
-  let contractAddress = contractArtifact.networks[network_port].address;
-  // let contractAddress = "0xbCFE9e893C744F0661806aD8148bBaf6fAED295f";
+  // let contractAddress = contractArtifact.networks[network_port].address;
+  // const abi = contractArtifact.abi;
+  let contractAddress = "0xB9bDB1084Bcb8B7D12082c8Ba9b410BF62cF563B";
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  /**
   const abi = [
-    { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
       anonymous: false,
       inputs: [
-        { indexed: false, internalType: "uint8", name: "_row", type: "uint8" },
-        { indexed: false, internalType: "uint8", name: "_col", type: "uint8" },
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "_row",
+          type: "uint8",
+        },
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "_col",
+          type: "uint8",
+        },
         {
           indexed: false,
           internalType: "uint256",
@@ -41,26 +49,83 @@ function getContract() {
       type: "event",
     },
     {
-      inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
       name: "arr_bids",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      name: "arr_colours",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
       stateMutability: "view",
       type: "function",
     },
     {
       inputs: [
-        { internalType: "uint8", name: "_row", type: "uint8" },
-        { internalType: "uint8", name: "_col", type: "uint8" },
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      name: "arr_colours",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      name: "arr_messages",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint8",
+          name: "_row",
+          type: "uint8",
+        },
+        {
+          internalType: "uint8",
+          name: "_col",
+          type: "uint8",
+        },
       ],
       name: "getBid",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
       stateMutability: "view",
       type: "function",
     },
@@ -68,7 +133,35 @@ function getContract() {
       inputs: [],
       name: "getColours",
       outputs: [
-        { internalType: "uint256[100]", name: "", type: "uint256[100]" },
+        {
+          internalType: "uint256[100]",
+          name: "",
+          type: "uint256[100]",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint8",
+          name: "_row",
+          type: "uint8",
+        },
+        {
+          internalType: "uint8",
+          name: "_col",
+          type: "uint8",
+        },
+      ],
+      name: "getMessage",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
       ],
       stateMutability: "view",
       type: "function",
@@ -76,30 +169,45 @@ function getContract() {
     {
       inputs: [],
       name: "getSize",
-      outputs: [{ internalType: "uint16", name: "", type: "uint16" }],
+      outputs: [
+        {
+          internalType: "uint16",
+          name: "",
+          type: "uint16",
+        },
+      ],
       stateMutability: "pure",
       type: "function",
     },
     {
-      inputs: [],
-      name: "owner",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
       inputs: [
-        { internalType: "uint8", name: "_row", type: "uint8" },
-        { internalType: "uint8", name: "_col", type: "uint8" },
-        { internalType: "uint256", name: "_colour", type: "uint256" },
+        {
+          internalType: "uint8",
+          name: "_row",
+          type: "uint8",
+        },
+        {
+          internalType: "uint8",
+          name: "_col",
+          type: "uint8",
+        },
+        {
+          internalType: "uint256",
+          name: "_colour",
+          type: "uint256",
+        },
+        {
+          internalType: "string",
+          name: "_message",
+          type: "string",
+        },
       ],
-      name: "placeBid",
+      name: "placeBidMessage",
       outputs: [],
       stateMutability: "payable",
       type: "function",
     },
   ];
-   */
   const signer = provider.getSigner();
   global_contract = new ethers.Contract(contractAddress, abi, signer);
 
